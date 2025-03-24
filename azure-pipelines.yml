@@ -2,7 +2,7 @@ trigger:
 - '*'
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Release1'
 
 stages:
 - stage: 'Build'
@@ -17,7 +17,7 @@ stages:
 
     variables:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-      dotnetSdkVersion: '5.x'
+      dotnetSdkVersion: '6.x'
 
     steps:
     - task: UseDotNet@2
@@ -74,7 +74,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     environment: dev
     variables:
-    - group: Release
+    - group: 'Release1'
     strategy:
       runOnce:
         deploy:
@@ -84,7 +84,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: 'Resource Manager - Tailspin - Space Game'
+              azureSubscription: 'cor-sandbox-espinalg-001'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
@@ -97,7 +97,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     environment: test
     variables:
-    - group: 'Release'
+    - group: 'Release1'
     strategy:
       runOnce:
         deploy:
@@ -107,7 +107,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: 'Resource Manager - Tailspin - Space Game'
+              azureSubscription: 'cor-sandbox-espinalg-001'
               appName: '$(WebAppNameTest)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
@@ -120,7 +120,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     environment: staging
     variables:
-    - group: 'Release'
+    - group: 'Release1'
     strategy:
       runOnce:
         deploy:
@@ -130,6 +130,6 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: 'Resource Manager - Tailspin - Space Game'
+              azureSubscription: 'cor-sandbox-espinalg-001'
               appName: '$(WebAppNameStaging)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
