@@ -2,7 +2,7 @@ trigger:
 - 'leaderboard-spike'
 
 variables:
-  buildConfiguration: 'Release1'
+  buildConfiguration: 'Release2'
 
 stages:
 - stage: 'Build'
